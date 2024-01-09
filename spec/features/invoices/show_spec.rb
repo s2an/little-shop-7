@@ -110,16 +110,19 @@ RSpec.describe "the merchant invoices show page" do
     it "updates status when Submit Item Status is clicked" do
       visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}"
 
-      within("tr:has(select[name='status'])") do # how does this work?
+      expect(page).to have_select('status', with_options: ["pending", "packaged", "shipped"])
+      expect(page).to have_content(@invoice_item_1.status)
+      expect(page).to have_button("Update Item Status")
+
+      within("tr:contains('#{@invoice_item_1.item.name}')") do
         select "packaged", from: "status"
         click_button "Update Item Status"
       end
 
       expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}")
-      within('table') do
-        InvoiceItem.where(item_id: @merchant_1.item_ids).each do |invoice_item|
-          expect(page).to have_content("packaged")
-        end
+      
+      within("tr:contains('#{@invoice_item_1.item.name}')") do
+        expect(page).to have_content("packaged")
       end
     end
   end
