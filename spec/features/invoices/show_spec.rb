@@ -121,9 +121,12 @@ RSpec.describe "the merchant invoices show page" do
 
       expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}")
       
+      save_and_open_page
       within("tr:contains('#{@invoice_item_1.item.name}')") do
-        expect(page).to have_content("packaged")
-        # expect(page).to have_select('status', selected: "packaged")
+        expect(page).to have_field(:status, with: 'packaged')
+        # expect(page).to have_content("packaged")
+        # expect(page).to have_select("status", selected: "packaged")
+        # expect(find("tr:contains('#{@invoice_item_1.item.name}')")).to have_select('status', selected: "packaged")
       end
     end
   end
