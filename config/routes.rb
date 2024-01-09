@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :dashboard
     resources :invoices, only: [:index, :show]
     resources :items, only: [:index, :show]
-    resources :invoice_items, only [:edit]
+    resources :invoice_items, only: [:update]
   end
   get "/merchants/:merchant_id/invoices", to: "invoices#index"
   get "/merchants/:merchant_id/invoices/:invoice_id", to: "invoices#show"
