@@ -20,7 +20,13 @@
         <td><%= invoice_item.item.name %></td>
         <td><%= invoice_item.quantity %></td>
         <td><%= invoice_item.format_unit_price %></td>
-        <td><%= invoice_item.status %></td>
+        <td>
+          <%= form_tag /invoice_items/:invoice_item_id/edit, method: :post do # not sure this path is correct %> 
+            <%= select_tag 'status', options_for_select(['Pending', 'Packaged', 'Shipped'], invoice_item.status), class: 'status-dropdown' %>
+            <%= submit_tag 'Update Item Status', class: 'update-button' %>
+          <% end %>
+          # <%= invoice_item.status %>
+        </td>
       </tr>
     <% end %>
   </tbody>
