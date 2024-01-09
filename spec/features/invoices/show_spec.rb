@@ -123,6 +123,7 @@ RSpec.describe "the merchant invoices show page" do
       
       within("tr:contains('#{@invoice_item_1.item.name}')") do
         expect(page).to have_content("packaged")
+        # expect(page).to have_select('status', selected: "packaged")
       end
     end
   end
