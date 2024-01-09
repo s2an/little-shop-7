@@ -2,3 +2,10 @@
 
 <h3><%= link_to "View Items", "/merchants/#{@merchant.id}/items" %></h3>
 <h3><%= link_to "View Invoices", "/merchants/#{@merchant.id}/invoices" %></h3>
+
+<h2><%= "Best Customers:" %></h2>
+<ul>
+    <% @merchant.top_five_customers.each do |customer| %>
+        <h3><li><%= "#{customer.first_name} #{customer.last_name} (#{customer.number_of_transactions} Transactions)" %></li></h3>
+    <% end %>
+</ul>
