@@ -10,7 +10,7 @@ RSpec.describe "the merchant invoices show page" do
     @customer_1 = create(:customer)
     @invoice_1 = create(:invoice, customer_id: @customer_1.id)
 
-    @invoice_item_1 = create(:invoice_item, item_id: @item_1.id, invoice_id: @invoice_1.id)
+    @invoice_item_1 = create(:invoice_item, item_id: @item_1.id, invoice_id: @invoice_1.id, status: :pending)
     @invoice_item_2 = create(:invoice_item, item_id: @item_2.id, invoice_id: @invoice_1.id)
   end
 
@@ -107,13 +107,23 @@ RSpec.describe "the merchant invoices show page" do
     # I am taken back to the merchant invoice show page
     # And I see that my Item's status has now been updated
 
-    it "" do
+    xit "updates status when Submit Item Status is clicked" do
       visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}"
 
-      expect(page).to have_content()
-      # I see that each invoice item status is a select field And I see that the invoice item's current status is selected
+      within("tr#invoice_item_#{invoice_item.id}") do
+        select "packaged", from: "status"
+        click_button "Update Item Status"
+      end
 
-
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}")
+      expect(page).to have_content("Packaged")
     end
   end
+
+        # InvoiceItem.where(item_id: @merchant_1.item_ids).each do |invoice_item|
+        #   expect(page).to have_content(invoice_item.status)
+        # end
+
+      # expect(page).to have_content()
+      # I see that each invoice item status is a select field And I see that the invoice item's current status is selected
 end
