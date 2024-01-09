@@ -3,9 +3,9 @@ class ItemsController < ApplicationController
     @item = Item.create!(item_params)
   end
 
-  # def show
-  #   @item = Item.find(params[:id])
-  # end
+  def show
+    @item = Item.find(params[:id])
+  end
 
   def index
     @merchant = Merchant.find(params[:merchant_id])
