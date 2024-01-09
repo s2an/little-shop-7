@@ -1,0 +1,5 @@
+<h3 style="text-align: center;">My Items</h3>
+
+<% @merchant.item_ids.each do |item| %>
+  <p><%= Item.find(item).name %></p>
+<% end %>

@@ -21,7 +21,6 @@ RSpec.describe "Admin Dashboard Index" do
 
     # Then I see a header indicating that I am on the admin dashboard
     expect(page).to have_content("Admin Dashboard Official")
-    # save_and_open_page
   end
 
   xit "has links to the Admin Merchants Index and Admind Invouces Index" do

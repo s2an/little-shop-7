@@ -55,8 +55,6 @@ RSpec.describe "the merchant dashboard index page" do
 
       visit "/merchants/#{@merchant.id}/dashboard"
 
-      save_and_open_page
-
       expect(page).to have_content("5 Transactions")
       expect(page).to have_content("4 Transactions")
       expect(page).to have_content("3 Transactions")

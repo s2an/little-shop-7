@@ -10,18 +10,6 @@ RSpec.describe Merchant, type: :model do
     it { should validate_presence_of(:name) }
   end
 
-  describe "methods" do
-    it "finds item ids for a given merchant" do
-      merchant_1 = create(:merchant)
-      merchant_2 = create(:merchant)
-      item_1 = create(:item, merchant_id: merchant_1.id)
-      item_2 = create(:item, merchant_id: merchant_1.id)
-      item_3 = create(:item, merchant_id: merchant_2.id)
-      item_4 = create(:item, merchant_id: merchant_2.id)
-      
-      expect(merchant_1.item_ids).to eq([item_1.id, item_2.id])
-      expect(merchant_2.item_ids).to eq([item_3.id, item_4.id])
-    end
   describe "instance methods" do
     describe "#top_five_customers (User Story 3)" do
       # As a merchant,
@@ -46,5 +34,24 @@ RSpec.describe Merchant, type: :model do
         expect(@merchant.top_five_customers[4].number_of_transactions).to eq 1
       end
     end 
+
+    describe "User Story 6" do
+      # As a merchant,
+      # When I visit my merchant items index page (merchants/:merchant_id/items)
+      # I see a list of the names of all of my items
+      # And I do not see items for any other merchant
+      
+      it "finds item ids for a given merchant" do
+        merchant_1 = create(:merchant)
+        merchant_2 = create(:merchant)
+        item_1 = create(:item, merchant_id: merchant_1.id)
+        item_2 = create(:item, merchant_id: merchant_1.id)
+        item_3 = create(:item, merchant_id: merchant_2.id)
+        item_4 = create(:item, merchant_id: merchant_2.id)
+        
+        expect(merchant_1.item_ids).to eq([item_1.id, item_2.id])
+        expect(merchant_2.item_ids).to eq([item_3.id, item_4.id])
+      end
+    end
   end
 end
