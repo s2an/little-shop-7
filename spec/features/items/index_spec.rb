@@ -105,11 +105,11 @@ RSpec.describe "the merchant items index page" do
       expect(current_path).to eq("/merchants/#{@merchant_1.id}/items/new")
       fill_in "Name", with: "Black Shoelaces"
       fill_in "Description", with: "long black shoelaces"
-      fill_in "Current Price", with: "1000"
+      fill_in "unit_price", with: "1000"
       click_on('Submit')
 
       expect(current_path).to eq("/merchants/#{@merchant_1.id}/items")
-
+      
       within("tbody:contains('Disabled Items')") do
         expect(page).to have_content("Black Shoelaces")
       end
