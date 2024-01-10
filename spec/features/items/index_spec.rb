@@ -69,7 +69,6 @@ RSpec.describe "the merchant items index page" do
     it "displays enabled/disabled items in sections" do
       visit "/merchants/#{@merchant_1.id}/items"
 
-      
       within("tbody:contains('Disabled Items')") do
         expect(page).to have_content(@item_1.name)
         expect(page).to have_content(@item_2.name)
@@ -81,6 +80,38 @@ RSpec.describe "the merchant items index page" do
     
       within("tbody:contains('Enabled Items')") do
         expect(page).to have_content(@item_1.name)
+      end
+    end
+  end
+
+  describe "User Story 11" do
+    # As a merchant
+    # When I visit my items index page
+    # I see a link to create a new item.
+    # When I click on the link,
+    # I am taken to a form that allows me to add item information.
+    # When I fill out the form I click ‘Submit’
+    # Then I am taken back to the items index page
+    # And I see the item I just created displayed in the list of items.
+    # And I see my item was created with a default status of disabled.
+
+    it "has a link to create new items" do
+      visit "/merchants/#{@merchant_1.id}/items"
+
+      expect(page).to have_link("New Item")
+
+      click_link("New Item")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/items/new")
+      fill_in "Name", with: "Black Shoelaces"
+      fill_in "Description", with: "long black shoelaces"
+      fill_in "Current Price", with: "1000"
+      click_on('Submit')
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/items")
+
+      within("tbody:contains('Disabled Items')") do
+        expect(page).to have_content("Black Shoelaces")
       end
     end
   end
