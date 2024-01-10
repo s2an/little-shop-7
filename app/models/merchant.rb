@@ -28,4 +28,13 @@ class Merchant < ApplicationRecord
                .where("invoice_items.status < 2 AND merchants.id = #{self.id}")
                .order("invoice_items.created_at")
   end
+
+  def most_popular_items
+    Item.joins({invoices: :transactions}, :merchant)
+        .select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_item_revenue")
+        .where("transactions.result = 1 AND merchant_id = #{self.id}")
+        .order(total_item_revenue: :desc)
+        .group(:id)
+        .limit(5)
+  end
 end
