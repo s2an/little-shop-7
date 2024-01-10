@@ -16,6 +16,11 @@
         <%= msg %>
       </div>
     <% end %>
+      <section>
+        <p><%= link_to "Dashboard", "/merchants/:merchant_id/dashboard" %></p>
+        <p><%= link_to "My Items", "/merchants/:merchant_id/items" %></p>
+        <p><%= link_to "My Invoices", "/merchants/:merchant_id/invoices" %></p>
+      </section>
     <%= yield %>
   </body>
 </html>
