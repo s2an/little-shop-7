@@ -12,10 +12,9 @@
 <style>table, th, td </style>
 <table>
   <thead>
-    <th></th>
-    <th></th>
   </thead>
   <tbody>
+    <h3>Enabled Items</h3>
     <% @merchant.enabled_item_ids.each do |item_id| %>
       <tr>
         <td><%= Item.find(item_id).name %></td>
@@ -27,14 +26,12 @@
   </tbody>
 </table>
 
-<h3>Disabled Items</h3>
 <style>table, th, td </style>
 <table>
   <thead>
-    <th></th>
-    <th></th>
   </thead>
   <tbody>
+    <h3>Disabled Items</h3>
     <% @merchant.disabled_item_ids.each do |item_id| %>
       <tr>
         <td><%= Item.find(item_id).name %></td>

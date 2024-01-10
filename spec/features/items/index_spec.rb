@@ -111,4 +111,29 @@ RSpec.describe "the merchant items index page" do
       expect(page).to have_link "#{@item_2.name}", href: merchant_item_path(merchant_id: @merchant.id, item_id: @item_2.id)
     end
   end
+
+  describe "User Story 10" do
+    # As a merchant,
+    # When I visit my merchant items index page
+    # Then I see two sections, one for "Enabled Items" and one for "Disabled Items"
+    # And I see that each Item is listed in the appropriate section
+
+    it "displays enabled/disabled items in sections" do
+      visit "/merchants/#{@merchant_1.id}/items"
+
+      
+      within("tbody:contains('Disabled Items')") do
+        expect(page).to have_content(@item_1.name)
+        expect(page).to have_content(@item_2.name)
+      end
+      
+      within("tr:contains('#{@item_1.name}')") do
+      click_button("Enable")
+      end
+    
+      within("tbody:contains('Enabled Items')") do
+        expect(page).to have_content(@item_1.name)
+      end
+    end
+  end
 end
