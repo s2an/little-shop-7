@@ -66,3 +66,41 @@ def load_test_data_us_4
     @invoice_item_10 = create(:invoice_item, item_id: @item_10.id, status: 2) # Sad path should exclude, due to status: 2 (shipped)
     @invoice_item_11 = create(:invoice_item, item_id: @item_11.id) # Sad path should exclude, due to @item_11 belonging to @merchant_2 
 end
+
+def load_test_data_us_12
+    def format_unit_price
+        '$%.2f' % "#{total_item_revenue/100}"
+    end
+
+    @merchant = create(:merchant)
+    @merchant_2 = create(:merchant)
+
+    @item_1 = create(:item, merchant_id: @merchant.id)
+    @item_2 = create(:item, merchant_id: @merchant.id)
+    @item_3 = create(:item, merchant_id: @merchant.id)
+    @item_4 = create(:item, merchant_id: @merchant.id)
+    @item_5 = create(:item, merchant_id: @merchant.id)
+    @item_6 = create(:item, merchant_id: @merchant.id) # Sad path should exclude, sixth most popular item from @merchant_1
+    @item_7 = create(:item, merchant_id: @merchant_2.id) # Sad path should exclude, belongs to @merchant_2
+
+    @invoice_1 = create(:invoice)
+    @invoice_2 = create(:invoice)
+
+    @transaction = create(:transaction, invoice_id: @invoice_1.id, result: 1)
+    @transaction = create(:transaction, invoice_id: @invoice_2.id, result: 1)
+
+    @invoice_item_1 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 10, unit_price: 5) # Sad path should exclude, sixth most popular item from @merchant_1
+    @invoice_item_2 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 10, unit_price: 10) # Sad path should exclude, sixth most popular item from @merchant_1
+    @invoice_item_3 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 10, unit_price: 10)
+    @invoice_item_4 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 10, unit_price: 15)
+    @invoice_item_5 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_3.id, quantity: 10, unit_price: 15)
+    @invoice_item_6 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_3.id, quantity: 10, unit_price: 20)
+    @invoice_item_7 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_4.id, quantity: 10, unit_price: 20)
+    @invoice_item_8 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_4.id, quantity: 10, unit_price: 25)
+    @invoice_item_9 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 10, unit_price: 25)
+    @invoice_item_10 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 10, unit_price: 30)
+    @invoice_item_11 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 10, unit_price: 30)
+    @invoice_item_12 = create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 10, unit_price: 35)
+    @invoice_item_13 = create(:invoice_item, invoice_id: @invoice_2.id, item_id: @item_7.id, quantity: 10, unit_price: 35) # Sad path should exclude, belongs to @merchant_2
+    @invoice_item_14 = create(:invoice_item, invoice_id: @invoice_2.id, item_id: @item_7.id, quantity: 10, unit_price: 40) # Sad path should exclude, belongs to @merchant_2
+end
