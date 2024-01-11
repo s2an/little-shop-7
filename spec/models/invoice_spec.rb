@@ -14,10 +14,10 @@ RSpec.describe Invoice, type: :model do
 
   describe "instance methods" do
     it "formats created_at date" do
-      @customer = create(:customer)
-      @invoice = create(:invoice, created_at: "2019-07-18 00:00:00")
+      customer = create(:customer)
+      invoice = create(:invoice, created_at: "2019-07-18 00:00:00")
     
-      expect(@invoice.format_created_date).to eq("Thursday, July 18, 2019")
+      expect(invoice.format_created_date).to eq("Thursday, July 18, 2019")
     end
 
     it "calculates the total revenue" do
@@ -33,6 +33,45 @@ RSpec.describe Invoice, type: :model do
   
       expect(invoice.total_revenue).to eq(10)
     end
+  end
+
+  
+
+  it "calculates the total revenue by merchant" do
+    merchant_1 = create(:merchant)
+    merchant_2 = create(:merchant)
+    item_1 = create(:item, merchant_id: merchant_1.id)
+    item_2 = create(:item, merchant_id: merchant_2.id)
+    item_3 = create(:item, merchant_id: merchant_1.id)
+
+    customer_1 = create(:customer)
+    invoice_1 = create(:invoice, customer_id: customer_1.id)
+
+    invoice_item_1 = create(:invoice_item, invoice_id: invoice_1.id, item_id: item_1.id, quantity: 2, unit_price: 100)
+    invoice_item_2 = create(:invoice_item, invoice_id: invoice_1.id, item_id: item_2.id, quantity: 2, unit_price: 200)
+    invoice_item_3 = create(:invoice_item, invoice_id: invoice_1.id, item_id: item_3.id, quantity: 3, unit_price: 100)
+
+    expect(invoice_1.total_revenue_by_merchant(merchant_1)).to eq("5.00")
+    expect(invoice_1.total_revenue_by_merchant(merchant_2)).to eq("4.00")
+  end
+
+  it "formats the time like 'Monday, July 18, 2019'" do
+    invoice_items = create_list(:invoice_item, 4, status:0)
+
+    invoice1 = invoice_items[0].invoice
+    invoice1.update(created_at: Time.new(2019, 9, 8))
+
+    invoice3 = invoice_items[2].invoice
+    invoice3.update(created_at: Time.new(2020, 9, 8))
+
+    invoice4 = invoice_items[3].invoice
+    invoice4.update(created_at: Time.new(2000, 2, 9))
+
+    invoice2 = invoice_items[1].invoice
+    invoice2.update(created_at: Time.new(2015, 3, 5))
+
+    expect(invoice1.formatted_created_at).to eq("Sunday, September 08, 2019")
+    expect(invoice2.formatted_created_at).to eq("Thursday, March 05, 2015")
   end
 
   describe "class methods" do
@@ -56,21 +95,4 @@ RSpec.describe Invoice, type: :model do
     end
   end
 
-  it "calculates the total revenue by merchant" do
-    merchant_1 = create(:merchant)
-    merchant_2 = create(:merchant)
-    item_1 = create(:item, merchant_id: merchant_1.id)
-    item_2 = create(:item, merchant_id: merchant_2.id)
-    item_3 = create(:item, merchant_id: merchant_1.id)
-
-    customer_1 = create(:customer)
-    invoice_1 = create(:invoice, customer_id: customer_1.id)
-
-    invoice_item_1 = create(:invoice_item, invoice_id: invoice_1.id, item_id: item_1.id, quantity: 2, unit_price: 100)
-    invoice_item_2 = create(:invoice_item, invoice_id: invoice_1.id, item_id: item_2.id, quantity: 2, unit_price: 200)
-    invoice_item_3 = create(:invoice_item, invoice_id: invoice_1.id, item_id: item_3.id, quantity: 3, unit_price: 100)
-
-    expect(invoice_1.total_revenue_by_merchant(merchant_1)).to eq("5.00")
-    expect(invoice_1.total_revenue_by_merchant(merchant_2)).to eq("4.00")
-  end
 end
