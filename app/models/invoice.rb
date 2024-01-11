@@ -17,6 +17,7 @@ class Invoice < ApplicationRecord
   def self.incomplete_invoices
     Invoice.joins(:invoice_items)
       .where(invoice_items: {status: [0,1]})
+      .order(:created_at)
     # start with Invoice
     # join invoice_items table
     # filter for not-shipped invoice_items
@@ -29,5 +30,9 @@ class Invoice < ApplicationRecord
                                         .sum("invoice_items.unit_price * invoice_items.quantity")
 
     total_revenue_in_dollars = format('%.2f', total_revenue_in_cents / 100.0)
+  end
+
+  def formatted_created_at
+    created_at.strftime('%A, %B %d, %Y')
   end
 end
