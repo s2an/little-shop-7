@@ -54,4 +54,35 @@ RSpec.describe "admin merchant index" do
       expect(merchant.status).to_not have_content("Enabled")
     end
   end
+
+  describe "User Story 28" do
+    # As an admin,
+    # When I visit the admin merchants index (/admin/merchants)
+    # Then I see two sections, one for "Enabled Merchants" and one for "Disabled Merchants"
+    # And I see that each Merchant is listed in the appropriate section
+
+    it "groups the merchants by status" do
+      merchant = create(:merchant)
+
+      visit admin_merchants_path
+
+      expect(page).to have_content("Disabled Merchants")
+  
+      within(".disabled-merchants") do
+        expect(page).to have_content(merchant.name)
+      end
+      expect(merchant.status).to eq("")
+      
+      click_button("Enable")
+      merchant.reload
+
+      expect(merchant.status).to eq("Enabled")
+
+      expect(page).to have_content("Enabled Merchants")
+      
+      within(".enabled-merchants") do
+        expect(page).to have_content(merchant.name)
+      end
+    end
+  end
 end

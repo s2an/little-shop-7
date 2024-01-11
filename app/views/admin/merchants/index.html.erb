@@ -1,16 +1,32 @@
-<h1> Merchants Index Page </h1>
+<h1>Merchants Index Page</h1>
 
-<% @merchants.each do |merchant| %>
-  <ul>
-    <%= link_to merchant.name, admin_merchant_path(merchant)%>
-    <%= merchant.status %>
+<div class="disabled-merchants">
+  <h2>Disabled Merchants</h2>
+  <% @merchants.each do |merchant| %>
+    <% if merchant.status.blank? %>
+      <ul>
+        <%= link_to merchant.name, admin_merchant_path(merchant) %>
+        <%= merchant.status %>
+        <%= form_with url: admin_merchant_path(merchant), method: :patch do |form| %>
+          <%= form.button "Enable", name: "merchant[status]", value: "Enabled" %>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>
 
-    <%= form_with url: admin_merchant_path(merchant), method: :patch do |form| %>
-      <% if merchant.status == "" %>
-        <%= form.button "Enable", name: "merchant[status]", value: "Enabled" %>
-      <% else %>
-        <%= form.button "Disable", name: "merchant[status]", value: "" %>
-      <%end%>
-    <%end%>
-  </ul>
-<%end%>
+<div class="enabled-merchants">
+  <h2>Enabled Merchants</h2>
+  <% @merchants.each do |merchant| %>
+    <% if merchant.status == "Enabled" %>
+      <ul>
+        <%= link_to merchant.name, admin_merchant_path(merchant) %>
+        <%= merchant.status %>
+        <%= form_with url: admin_merchant_path(merchant), method: :patch do |form| %>
+          <%= form.button "Disable", name: "merchant[status]", value: "" %>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>
+
