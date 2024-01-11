@@ -43,7 +43,6 @@ RSpec.describe Merchant, type: :model do
 
       expect(merchant_1.disabled_item_ids).to eq([item_3.id, item_4.id])
     end
-  end
 
   describe "instance methods" do
     describe "#top_five_customers (User Story 3)" do
