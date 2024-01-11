@@ -52,7 +52,7 @@ RSpec.describe "Admin Dashboard Index" do
     # As an admin,
     # When I visit the admin dashboard (/admin)
     visit admin_root_path
-
+  
     # Then I see the names of the top 5 customers
     expect(page).to have_content("Top 5 Customers")
     # who have conducted the largest number of successful transactions
@@ -61,17 +61,17 @@ RSpec.describe "Admin Dashboard Index" do
       expect(page).to have_content(customer.last_name)
       expect(page).to have_content(10)
     end
-
+  
   #   expect(page).to_not have_content(.first_name)
   #   expect(page).to_not have_content(.last_name)
-  # end
+  end
 
   it "shows invoices that have not shipped" do
     #     22. Admin Dashboard Incomplete Invoices
     pending = create_list(:invoice_item, 5, status: 0)
     packaged = create_list(:invoice_item, 5, status: 1)
     shipped = create_list(:invoice_item, 5, status: 2)
-
+ 
     expected_ids = []
     pending.each do |invoice_item|
       expected_ids << invoice_item.invoice_id
@@ -97,7 +97,6 @@ RSpec.describe "Admin Dashboard Index" do
       shipped.each do |invoice_item|
         expect(page).to_not have_content("Invoice ##{invoice_item.invoice_id}")
       end
-
     end
     
       # This was in main. I commented it out, but left it in while resolving merge conflict 32-us-22-admin-dashboard
