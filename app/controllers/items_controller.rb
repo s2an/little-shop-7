@@ -12,6 +12,23 @@ class ItemsController < ApplicationController
     @merchant = Merchant.find(params[:merchant_id])
   end
 
+  def new
+    @merchant = Merchant.find(params[:merchant_id])
+
+  end
+
+  def create
+    @merchant = Merchant.find(params[:merchant_id])
+    item = Item.new(item_params)
+    item.status = "disabled"
+    if item.save
+      redirect_to "/merchants/#{@merchant.id}/items"
+    else
+      redirect_to "/merchants/#{@merchant.id}/items/new"
+      flash[:alert] = "Error: Item not created."
+    end
+  end
+
   def edit
     @item = Item.find(params[:item_id])
     @merchant = Merchant.find(params[:merchant_id])

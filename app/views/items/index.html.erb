@@ -1,5 +1,7 @@
 <h3 style="text-align: center;">My Items</h3>
 
+<%= link_to "New Item", "/merchants/#{@merchant.id}/items/new" %>
+
 <h3><%= "Highest Revenue Items" %></h3>
 <ul>
     <% @merchant.most_popular_items.each do |item| %>
@@ -9,6 +11,7 @@
 </ul>
 
 <h3>Enabled Items</h3>
+
 <style>table, th, td </style>
 <table>
   <thead>
