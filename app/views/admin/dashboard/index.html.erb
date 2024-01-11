@@ -6,7 +6,8 @@
 <div class="incomplete_invoices">
   <h3>Incomplete Invoices</h3>
   <% @invoices.each do |invoice| %>
-    <%= link_to "Invoice ##{invoice.id}", admin_invoice_path(invoice) %>
+    <%= link_to "Invoice ##{invoice.id} #{invoice.formatted_created_at}", admin_invoice_path(invoice) %>
+    <br>
   <% end %>
 </div>
 

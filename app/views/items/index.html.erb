@@ -3,3 +3,49 @@
 <% @merchant.items.each do |item| %>
   <p><%= item.name %></p>
 <% end %>
+
+<%= link_to "New Item", "/merchants/#{@merchant.id}/items/new" %>
+
+<h3><%= "Highest Revenue Items" %></h3>
+<ul>
+    <% @merchant.most_popular_items.each do |item| %>
+        <li><h4><%= link_to "#{item.name}", merchant_item_path(merchant_id: @merchant.id, item_id: item.id) %></h4>
+        <h4>(Total Item Revenue: <%= "#{item.total_item_revenue/100}" %>)</h4></li>
+    <% end %>
+</ul>
+
+<h3>Enabled Items</h3>
+
+<style>table, th, td </style>
+<table>
+  <thead>
+  </thead>
+  <tbody>
+    <h3>Enabled Items</h3>
+    <% @merchant.enabled_item_ids.each do |item_id| %>
+      <tr>
+        <td><%= Item.find(item_id).name %></td>
+        <td>
+          <p><%= button_to "Disable", merchant_item_path(@merchant, item_id), method: :patch, params: {status: "disabled"} %></p>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<style>table, th, td </style>
+<table>
+  <thead>
+  </thead>
+  <tbody>
+    <h3>Disabled Items</h3>
+    <% @merchant.disabled_item_ids.each do |item_id| %>
+      <tr>
+        <td><%= Item.find(item_id).name %></td>
+        <td>
+          <p><%= button_to "Enable", merchant_item_path(@merchant, item_id), method: :patch, params: {status: "enabled"} %></p>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

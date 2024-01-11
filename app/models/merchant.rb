@@ -6,6 +6,18 @@ class Merchant < ApplicationRecord
     Item.where(merchant_id: id).pluck(:id)
   end
 
+  def self.enabled_merchants
+    Merchant.where(status: "Enabled")
+  end
+
+  def enabled_item_ids
+    Item.where(merchant_id: id, status: "enabled").pluck(:id)
+  end
+
+  def disabled_item_ids
+    Item.where(merchant_id: id, status: "disabled").pluck(:id)
+  end
+
   def top_five_customers
     Customer.joins(invoices: [{ items: :merchant }, :transactions] )
             .select("customers.*, count(customers.id) as number_of_transactions")
@@ -23,5 +35,14 @@ class Merchant < ApplicationRecord
 
   def top_5_sellers 
     Merchant
+  end 
+  
+  def most_popular_items
+    Item.joins({invoices: :transactions}, :merchant)
+        .select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_item_revenue")
+        .where("transactions.result = 1 AND merchant_id = #{self.id}")
+        .order(total_item_revenue: :desc)
+        .group(:id)
+        .limit(5)
   end
 end

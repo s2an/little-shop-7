@@ -2,3 +2,5 @@
 
 <p><%= "Description: #{@item.description}" %></p></br>
 <p><%= "Current Price: #{@item.format_unit_price}" %></p>
+
+<%= link_to "Update Item", "/merchants/#{@merchant.id}/items/#{@item.id}/edit", method: :get %>

@@ -20,7 +20,12 @@
         <td><%= invoice_item.item.name %></td>
         <td><%= invoice_item.quantity %></td>
         <td><%= invoice_item.format_unit_price %></td>
-        <td><%= invoice_item.status %></td>
+        <td>
+          <%= form_with url:"/merchants/#{invoice_item.item.merchant_id}/invoice_items/#{invoice_item.id}", method: :patch, data: { turbo: false} do |form| %> 
+            <%= form.select 'status', options_for_select(["pending","packaged", "shipped"], selected: invoice_item.status.titleize) %>
+            <%= form.submit 'Update Item Status' %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

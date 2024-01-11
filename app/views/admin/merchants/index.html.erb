@@ -1,3 +1,32 @@
-<%@merchants.each do |merchant| %>
-  <%= link_to merchant.name, admin_merchant_path(merchant)%>
-  <%end%>
+<h1>Merchants Index Page</h1>
+
+<div class="disabled-merchants">
+  <h2>Disabled Merchants</h2>
+  <% @merchants.each do |merchant| %>
+    <% if merchant.status.blank? %>
+      <ul>
+        <%= link_to merchant.name, admin_merchant_path(merchant) %>
+        <%= merchant.status %>
+        <%= form_with url: admin_merchant_path(merchant), method: :patch do |form| %>
+          <%= form.button "Enable", name: "merchant[status]", value: "Enabled" %>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="enabled-merchants">
+  <h2>Enabled Merchants</h2>
+  <% @merchants.each do |merchant| %>
+    <% if merchant.status == "Enabled" %>
+      <ul>
+        <%= link_to merchant.name, admin_merchant_path(merchant) %>
+        <%= merchant.status %>
+        <%= form_with url: admin_merchant_path(merchant), method: :patch do |form| %>
+          <%= form.button "Disable", name: "merchant[status]", value: "" %>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>
+

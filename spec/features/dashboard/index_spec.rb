@@ -71,22 +71,40 @@ RSpec.describe "the merchant dashboard index page" do
     # And next to each Item I see the id of the invoice that ordered my item
     # And each invoice id is a link to my merchant's invoice show page
 
-    it "shows the names and invoice IDs of all items ready to ship (i.e. statuses of 'pending' or 'packaged')" do
+    it "shows the names of all items ready to ship (i.e. statuses of 'pending' or 'packaged')" do
       load_test_data_us_4
 
       visit merchant_dashboard_index_path(merchant_id: @merchant.id)
 
-      expect(page).to have_content("#{@invoice_item_1.item.name}, Invoice ##{@invoice_item_1.invoice.id}")
-      expect(page).to have_content("#{@invoice_item_2.item.name}, Invoice ##{@invoice_item_2.invoice.id}")
-      expect(page).to have_content("#{@invoice_item_3.item.name}, Invoice ##{@invoice_item_3.invoice.id}")
-      expect(page).to have_content("#{@invoice_item_4.item.name}, Invoice ##{@invoice_item_4.invoice.id}")
-      expect(page).to have_content("#{@invoice_item_5.item.name}, Invoice ##{@invoice_item_5.invoice.id}")
-      expect(page).to have_content("#{@invoice_item_6.item.name}, Invoice ##{@invoice_item_6.invoice.id}")
-      expect(page).to have_content("#{@invoice_item_7.item.name}, Invoice ##{@invoice_item_7.invoice.id}")
-      expect(page).to have_content("#{@invoice_item_8.item.name}, Invoice ##{@invoice_item_8.invoice.id}")
-      expect(page).to have_content("#{@invoice_item_9.item.name}, Invoice ##{@invoice_item_9.invoice.id}")
-      expect(page).to_not have_content("#{@invoice_item_10.item.name}, Invoice ##{@invoice_item_10.invoice.id}")
-      expect(page).to_not have_content("#{@invoice_item_11.item.name}, Invoice ##{@invoice_item_11.invoice.id}")
+      expect(page).to have_content("#{@invoice_item_1.item.name}")
+      expect(page).to have_content("#{@invoice_item_2.item.name}")
+      expect(page).to have_content("#{@invoice_item_3.item.name}")
+      expect(page).to have_content("#{@invoice_item_4.item.name}")
+      expect(page).to have_content("#{@invoice_item_5.item.name}")
+      expect(page).to have_content("#{@invoice_item_6.item.name}")
+      expect(page).to have_content("#{@invoice_item_7.item.name}")
+      expect(page).to have_content("#{@invoice_item_8.item.name}")
+      expect(page).to have_content("#{@invoice_item_9.item.name}")
+      expect(page).to_not have_content("#{@invoice_item_10.item.name}")
+      expect(page).to_not have_content("#{@invoice_item_11.item.name}")
+    end
+
+    it "shows the invoice IDs of all items ready to ship (i.e. statuses of 'pending' or 'packaged')" do
+      load_test_data_us_4
+
+      visit merchant_dashboard_index_path(merchant_id: @merchant.id)
+
+      expect(page).to have_content("Invoice ##{@invoice_item_1.invoice.id}")
+      expect(page).to have_content("Invoice ##{@invoice_item_2.invoice.id}")
+      expect(page).to have_content("Invoice ##{@invoice_item_3.invoice.id}")
+      expect(page).to have_content("Invoice ##{@invoice_item_4.invoice.id}")
+      expect(page).to have_content("Invoice ##{@invoice_item_5.invoice.id}")
+      expect(page).to have_content("Invoice ##{@invoice_item_6.invoice.id}")
+      expect(page).to have_content("Invoice ##{@invoice_item_7.invoice.id}")
+      expect(page).to have_content("Invoice ##{@invoice_item_8.invoice.id}")
+      expect(page).to have_content("Invoice ##{@invoice_item_9.invoice.id}")
+      expect(page).to_not have_content("Invoice ##{@invoice_item_10.invoice.id}")
+      expect(page).to_not have_content("Invoice ##{@invoice_item_11.invoice.id}")
     end
 
     it "links to each item's invoice show page" do
@@ -120,8 +138,6 @@ RSpec.describe "the merchant dashboard index page" do
       load_test_data_us_4
 
       visit merchant_dashboard_index_path(merchant_id: @merchant.id)
-
-      save_and_open_page
 
       expect(page).to have_content("#{@invoice_item_1.invoice.created_at.strftime("%A, %B #{@invoice_item_1.invoice.created_at.day.ordinalize}, %Y")}")
       expect(page).to have_content("#{@invoice_item_2.invoice.created_at.strftime("%A, %B #{@invoice_item_2.invoice.created_at.day.ordinalize}, %Y")}")

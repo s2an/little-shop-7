@@ -1,6 +1,8 @@
+<h1> Merchant Edit Page </h1>
+
 <%= @merchant.name%>
-<%= form_with url: "/admin/merchants/#{@merchant.id}", method: :patch, data: { turbo: false } do |form| %>
-  <%= form.label :"Merchant Name" %> 
-  <%= form.text_field :"Merchant Name", value: @merchant.name %>
+<%= form_with model: @merchant, url: admin_merchant_path(@merchant), method: :patch, data: { turbo: false } do |form| %>
+  <%= form.label :name %> 
+  <%= form.text_field :name %>
   <%= form.submit 'Submit' %>
 <% end %>

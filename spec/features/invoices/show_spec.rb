@@ -77,7 +77,7 @@ RSpec.describe "the merchant invoices show page" do
       expect(page).to_not have_content(@invoice_item_1.item.name) # should NOT see item 1 because is does NOT belong to merchant 2
     end
   end
-
+  
   describe "User Story 17" do
     # As a merchant
     # When I visit my merchant invoice show page (/merchants/:merchant_id/invoices/:invoice_id)
@@ -92,6 +92,38 @@ RSpec.describe "the merchant invoices show page" do
       visit "/merchants/#{@merchant_2.id}/invoices/#{@invoice_1.id}"
 
       expect(page).to have_content("Total Revenue: $#{@invoice_1.total_revenue_by_merchant(@merchant_2)}")
+    end
+  end
+
+  describe "User Story 18" do
+    # As a merchant
+    # When I visit my merchant invoice show page (/merchants/:merchant_id/invoices/:invoice_id)
+    # I see that each invoice item status is a select field
+    # And I see that the invoice item's current status is selected
+    # When I click this select field,
+    # Then I can select a new status for the Item,
+    # And next to the select field I see a button to "Update Item Status"
+    # When I click this button
+    # I am taken back to the merchant invoice show page
+    # And I see that my Item's status has now been updated
+
+    it "updates status when Submit Item Status is clicked" do
+      visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}"
+
+      expect(page).to have_select('status', with_options: ["pending", "packaged", "shipped"])
+      expect(page).to have_content(@invoice_item_1.status)
+      expect(page).to have_button("Update Item Status")
+
+      within("tr:contains('#{@invoice_item_1.item.name}')") do
+        select "packaged", from: "status"
+        click_button "Update Item Status"
+      end
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}")
+
+      within("tr:contains('#{@invoice_item_1.item.name}')") do
+        expect(page).to have_content("packaged")
+      end
     end
   end
 end
