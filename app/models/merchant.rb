@@ -20,4 +20,8 @@ class Merchant < ApplicationRecord
                .where("invoice_items.status < 2 AND merchants.id = #{self.id}")
                .order("invoice_items.created_at")
   end
+
+  def top_5_sellers 
+    Merchant
+  end
 end
