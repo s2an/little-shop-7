@@ -325,7 +325,7 @@ When I click this button
 Then I am redirected back to the admin merchants index
 And I see that the merchant's status has changed
 ```
-
+  
 ```
 28. Admin Merchants Grouped by Status
 
