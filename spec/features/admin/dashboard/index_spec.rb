@@ -48,7 +48,7 @@ RSpec.describe "Admin Dashboard Index" do
     # As an admin,
     # When I visit the admin dashboard (/admin)
     visit admin_root_path
-
+  
     # Then I see the names of the top 5 customers
     expect(page).to have_content("Top 5 Customers")
     # who have conducted the largest number of successful transactions
@@ -57,7 +57,7 @@ RSpec.describe "Admin Dashboard Index" do
       expect(page).to have_content(customer.last_name)
       expect(page).to have_content(10)
     end
-
+  
   #   expect(page).to_not have_content(.first_name)
   #   expect(page).to_not have_content(.last_name)
   end
@@ -67,7 +67,7 @@ RSpec.describe "Admin Dashboard Index" do
     pending = create_list(:invoice_item, 5, status: 0)
     packaged = create_list(:invoice_item, 5, status: 1)
     shipped = create_list(:invoice_item, 5, status: 2)
-
+ 
     expected_ids = []
     pending.each do |invoice_item|
       expected_ids << invoice_item.invoice_id

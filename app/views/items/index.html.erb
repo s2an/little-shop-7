@@ -1,5 +1,9 @@
 <h3 style="text-align: center;">My Items</h3>
 
+<% @merchant.items.each do |item| %>
+  <p><%= item.name %></p>
+<% end %>
+
 <%= link_to "New Item", "/merchants/#{@merchant.id}/items/new" %>
 
 <h3><%= "Highest Revenue Items" %></h3>

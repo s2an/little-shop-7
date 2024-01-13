@@ -33,6 +33,10 @@ class Merchant < ApplicationRecord
                .order("invoice_items.created_at")
   end
 
+  def top_5_sellers 
+    Merchant
+  end 
+  
   def most_popular_items
     Item.joins({invoices: :transactions}, :merchant)
         .select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_item_revenue")
